@@ -1,18 +1,14 @@
 {
-  "fonts": {
-    "heading": "Inter",
-    "body": "Inter"
-  },
-  "borderRadius": {
-    "DEFAULT": "0.5rem",
-    "lg": "1rem"
-  },
   "colors": {
-    "primary": "#3B82F6",
-    "secondary": "#1E293B",
+    "primary": "#E11D48",   
+    "secondary": "#0F172A",
     "accent": "#F59E0B",
     "background": "#FFFFFF",
-    "surface": "#F8FAFC",
-    "text": "#0F172A"
-  }
+    "text": "#1E293B"
+  },
+  "fonts": {
+    "heading": "'Playfair Display', serif",
+    "body": "'Inter', sans-serif"
+  },
+  "borderRadius": "0.5rem"
 }
