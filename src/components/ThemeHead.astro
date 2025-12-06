@@ -1,14 +1,30 @@
 ---
 import theme from '../data/theme.json';
-
-// Convert "Open Sans" to "Open+Sans" for the URL
-const hFont = theme.fonts.heading.replace(/ /g, '+');
-const bFont = theme.fonts.body.replace(/ /g, '+');
-
-const googleFontsUrl = `https://fonts.googleapis.com/css2?family=${hFont}:wght@400;700&family=${bFont}:wght@300;400;600&display=swap`;
 ---
-
-<!-- This fetches the AI-selected fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href={googleFontsUrl} rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+<style define:vars={{ 
+    primary: theme.colors.primary,
+    secondary: theme.colors.secondary,
+    accent: theme.colors.accent,
+    bg: theme.colors.background,
+    text: theme.colors.text,
+    fontHeading: theme.fonts.heading,
+    fontBody: theme.fonts.body,
+    radius: theme.borderRadius
+  }}>
+  :root {
+    --color-primary: var(--primary);
+    --color-secondary: var(--secondary);
+    --color-accent: var(--accent);
+    --color-bg: var(--bg);
+    --color-text: var(--text);
+    
+    --font-heading: var(--fontHeading);
+    --font-body: var(--fontBody);
+    
+    --radius-global: var(--radius);
+  }
+</style>
