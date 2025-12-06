@@ -1,20 +1,30 @@
 ---
-import content from '../data/site-content.json';
+// 1. Import the raw JSON
+import contentRaw from '../data/site-content.json';
 import ThemeHead from '../components/ThemeHead.astro';
+
+// 2. DEFENSIVE SETUP
+// If contentRaw is undefined, default to empty object
+const content = contentRaw || {};
+// If meta/contact are missing, default to empty objects so we don't crash
+const meta = content.meta || {};
+const contact = content.contact || {};
+
 const { title, description } = Astro.props;
 
-// Construct the Schema for AI
+// 3. Construct the Schema safely
+// We access our safe 'meta' and 'contact' variables, not the raw 'content' path
 const schemaData = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name": content.meta.title,
-  "description": content.meta.description,
-  "telephone": content.contact.phone,
-  "email": content.contact.email,
-  "url": `https://${Astro.site?.host}${Astro.site?.pathname}`, 
+  "name": meta.title || "Agency Client", // Fallback text
+  "description": meta.description || "",
+  "telephone": contact.phone || "",      // This prevents the crash
+  "email": contact.email || "",
+  "url": Astro.site ? new URL(Astro.site).href : "", 
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "Miami", // You can add this to your JSON later
+    "addressLocality": "Miami", 
     "addressRegion": "FL"
   }
 };
@@ -29,8 +39,12 @@ const schemaData = {
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
-		<ThemeHead />
-		<script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+		
+        <ThemeHead />
+		
+        {contact.phone && (
+		    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+        )}
 	</head>
 	<body class="bg-white text-gray-900 antialiased">
 		<slot />
