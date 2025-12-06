@@ -6,57 +6,59 @@ import Features from '../components/Features.astro';
 import Footer from '../components/Footer.astro';
 import ContactForm from '../components/ContactForm.astro';
 
-// Import the JSON. If the file is empty/broken, 'contentData' might be unexpected.
+// Import the JSON data. 
+// If the file is empty or broken, this might import as undefined.
 import contentData from '../data/site-content.json';
 
-// Safety Net: Ensure every piece of data exists even if the JSON is missing it.
-const content = {
-  meta: { 
-    title: contentData?.meta?.title || "Agency Site", 
-    description: contentData?.meta?.description || "Welcome" 
+// --- DEFENSIVE DATA MAPPING ---
+// We create a new 'safeContent' object.
+// We use "?." to check if a field exists before accessing it.
+// We use "||" to provide a fallback string if it is missing.
+
+const safeContent = {
+  meta: {
+    // If contentData is totally missing, these will still default to strings
+    title: contentData?.meta?.title || "Agency Client Site",
+    description: contentData?.meta?.description || "Welcome to our website."
   },
   colors: {
     primary: contentData?.colors?.primary || "blue-600",
     secondary: contentData?.colors?.secondary || "gray-100"
   },
-  hero: { 
-    headline: contentData?.hero?.headline || "Welcome to our site", 
-    subheadline: contentData?.hero?.subheadline || "We provide excellent service.", 
+  hero: {
+    headline: contentData?.hero?.headline || "Welcome",
+    subheadline: contentData?.hero?.subheadline || "We provide excellent service.",
     ctaText: contentData?.hero?.ctaText || "Get Started",
     ctaLink: contentData?.hero?.ctaLink || "#contact"
   },
-  // Safe fallback for contact info
   contact: {
     email: contentData?.contact?.email || "hello@example.com",
-    phone: contentData?.contact?.phone || "(555) 000-0000"
+    phone: contentData?.contact?.phone || "(555) 123-4567"
   },
-  // Safe fallback for features array
-  features: Array.isArray(contentData?.features) ? contentData.features : [
-    { title: "Feature 1", description: "Description here", icon: "star" },
-    { title: "Feature 2", description: "Description here", icon: "star" }
-  ]
+  // Ensure features is always an array so .map() doesn't crash
+  features: Array.isArray(contentData?.features) ? contentData.features : []
 };
 ---
 
-<Layout title={content.meta.title} description={content.meta.description}>
+<Layout title={safeContent.meta.title} description={safeContent.meta.description}>
   <main class="antialiased text-gray-900">
     
-    <Navbar company={content.meta.title} contact={content.contact} />
+    <Navbar company={safeContent.meta.title} contact={safeContent.contact} />
     
     <Hero 
-      headline={content.hero.headline} 
-      subheadline={content.hero.subheadline} 
-      cta={content.hero.ctaText} 
-      color={content.colors.primary}
+      headline={safeContent.hero.headline} 
+      subheadline={safeContent.hero.subheadline} 
+      cta={safeContent.hero.ctaText} 
+      color={safeContent.colors.primary}
     />
     
-    <Features 
-      features={content.features} 
-    />
+    {safeContent.features.length > 0 && (
+      <Features features={safeContent.features} />
+    )}
 
-    <ContactForm clientName={content.meta.title} />
+    <ContactForm clientName={safeContent.meta.title} />
     
-    <Footer contact={content.contact} />
+    <Footer contact={safeContent.contact} />
     
   </main>
 </Layout>
