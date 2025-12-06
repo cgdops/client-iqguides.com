@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "title": "Ancat Media Group",
+    "description": "Leading Broadcast Media Solutions"
+  },
+  "colors": {
+    "primary": "indigo-600", 
+    "secondary": "gray-50"
+  },
+  "hero": {
+    "headline": "Broadcasting the Future",
+    "subheadline": "Innovative media strategies for the modern age.",
+    "ctaText": "Contact Us",
+    "ctaLink": "#contact"
+  },
+  "features": [
+    {
+      "title": "Digital Distribution",
+      "icon": "globe",
+      "description": "Global reach for your media content."
+    },
+    {
+      "title": "Media Analytics",
+      "icon": "chart",
+      "description": "Real-time insights into viewer engagement."
+    }
+  ],
+  "contact": {
+    "email": "contact@ancatmedia.com",
+    "phone": "(212) 555-0199"
+  }
+}

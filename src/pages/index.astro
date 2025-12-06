@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import Features from '../components/Features.astro';
+import Footer from '../components/Footer.astro';
+import ContactForm from '../components/ContactForm.astro';
+
+// Import the JSON. If the file is empty/broken, 'contentData' might be unexpected.
+import contentData from '../data/site-content.json';
+
+// Safety Net: Ensure every piece of data exists even if the JSON is missing it.
+const content = {
+  meta: { 
+    title: contentData?.meta?.title || "Agency Site", 
+    description: contentData?.meta?.description || "Welcome" 
+  },
+  colors: {
+    primary: contentData?.colors?.primary || "blue-600",
+    secondary: contentData?.colors?.secondary || "gray-100"
+  },
+  hero: { 
+    headline: contentData?.hero?.headline || "Welcome to our site", 
+    subheadline: contentData?.hero?.subheadline || "We provide excellent service.", 
+    ctaText: contentData?.hero?.ctaText || "Get Started",
+    ctaLink: contentData?.hero?.ctaLink || "#contact"
+  },
+  // Safe fallback for contact info
+  contact: {
+    email: contentData?.contact?.email || "hello@example.com",
+    phone: contentData?.contact?.phone || "(555) 000-0000"
+  },
+  // Safe fallback for features array
+  features: Array.isArray(contentData?.features) ? contentData.features : [
+    { title: "Feature 1", description: "Description here", icon: "star" },
+    { title: "Feature 2", description: "Description here", icon: "star" }
+  ]
+};
+---
+
+<Layout title={content.meta.title} description={content.meta.description}>
+  <main class="antialiased text-gray-900">
+    
+    <Navbar company={content.meta.title} contact={content.contact} />
+    
+    <Hero 
+      headline={content.hero.headline} 
+      subheadline={content.hero.subheadline} 
+      cta={content.hero.ctaText} 
+      color={content.colors.primary}
+    />
+    
+    <Features 
+      features={content.features} 
+    />
+
+    <ContactForm clientName={content.meta.title} />
+    
+    <Footer contact={content.contact} />
+    
+  </main>
+</Layout>
